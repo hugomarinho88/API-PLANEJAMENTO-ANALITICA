@@ -1,73 +1,59 @@
-# API de Fardamento da Marinha
+ Sistema de Planejamento de Demanda de Fardamento em Centro de Distribuição de Uniformes - API Analítica
 
-API REST desenvolvida em Python com Flask para controle simples de itens de fardamento
-do Centro de Distribuição de Uniformes da Base de Abastecimento da Marinha no Rio de Janeiro.
 
-## Tecnologias utilizadas
+# Descrição
+
+Esta API é responsável pelo processamento de dados e cálculo de previsão de demanda com base no histórico de consumo.
+
+Ela atua como um módulo independente dentro da arquitetura de microsserviços, sendo consumida pela API principal.
+
+
+# Arquitetura
+
+API Principal → API Analítica → Processamento de Dados
+
+
+# Tecnologias utilizadas
 
 - Python
-- Flask
-- SQLite
-- Flasgger (Swagger / OpenAPI)
-- Flask-CORS
-
-## Funcionalidades
-
-- Cadastro de itens de fardamento (tipo, tamanho, quantidade, setor)
-- Listagem de todos os itens cadastrados
-- Consulta de item por ID
-- Exclusão de item por ID
-- Documentação automática da API com Swagger
-
-## Estrutura principal das rotas
-
-- `GET /`  
-  Verifica se a API está no ar.
-
-- `GET /fardamentos`  
-  Lista todos os itens de fardamento.
-
-- `POST /fardamentos`  
-  Cadastra um novo item de fardamento.
-
-- `GET /fardamentos/<id>`  
-  Consulta um item específico pelo ID.
-
-- `DELETE /fardamentos/<id>`  
-  Remove um item específico pelo ID.
-
-## Banco de dados
-
-É utilizado um banco SQLite chamado `fardamento.db`.  
-A tabela principal é:
-
-```sql
-CREATE TABLE fardamentos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo TEXT NOT NULL,
-    tamanho TEXT NOT NULL,
-    quantidade INTEGER NOT NULL,
-    setor TEXT
-);
+- FastAPI
+- Docker
 
 
-git clone <URL_DO_REPOSITORIO_BACKEND>
-cd backend-api
+# Funcionalidades
+
+- Cálculo de média de consumo
+- Previsão de demanda
+- Sugestão de reposição
+- Identificação de itens críticos
+
+
+# Rotas
+
+- GET /health → verificação de funcionamento
+- POST /previsao → cálculo de previsão
+- POST /classificacao → classificação ABC
+- POST /reposicao → sugestão de reposição
+- POST /criticos → identificação de itens críticos
+
+
+# Instalação e execução
+
 python -m venv venv
-.\venv\Scripts\activate
+venv\Scripts\activate
 pip install -r requirements.txt
-python app.py
+uvicorn app.main:app --reload --port 8001
 
 
-A API ficará disponível em:
+# Acesso
 
-http://127.0.0.1:5000/ – página inicial
+http://127.0.0.1:8001/docs
 
-http://127.0.0.1:5000/apidocs – documentação Swagger
 
-Demonstra-se:
+# Docker
 
-uso de Flask e SQLite,
+docker build -t api-analitica
+docker run -p 8001:8001 api-analitica
 
 boas práticas de separação backend/frontend,
 
