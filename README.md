@@ -55,8 +55,3 @@ http://127.0.0.1:8001/docs
 docker build -t api-analitica
 docker run -p 8001:8001 api-analitica
 
-boas práticas de separação backend/frontend,
-
-documentação com OpenAPI (Swagger),
-
-uso de diferentes rotas (GET, POST, DELETE).
